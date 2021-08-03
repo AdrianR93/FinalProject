@@ -18,7 +18,7 @@ namespace MyFinalProject
         {
             VideoMode videoMode = new VideoMode();
             videoMode.Width = 720;
-            videoMode.Height = 1000;
+            videoMode.Height = 900;
 
 
             window = new RenderWindow(videoMode, "My Game");
@@ -54,10 +54,10 @@ namespace MyFinalProject
             window.Display();
         }
 
-        public void CheckGarbash()
-        {
-            gameplay.CheckGB();
-        }
+        //public void CheckGarbash()
+        //{
+        //    gameplay.CheckGB();
+        //}
 
         public static Vector2f GetWindowSize()
         {

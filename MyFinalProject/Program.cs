@@ -13,6 +13,8 @@ namespace MyFinalProject
             {
                 game.UpdateGame();
                 game.DrawGame();
+
+                FrameRate.OnFrameEnd();
             }
 
 
