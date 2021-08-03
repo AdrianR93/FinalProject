@@ -8,10 +8,12 @@ namespace MyFinalProject
     public class Gameplay
     {
         private Player player;
+        private Map map;
 
         public Gameplay()
         {
-            player = new Player();
+            //player = new Player();
+            map = new Map();
 
         }
 
@@ -22,6 +24,10 @@ namespace MyFinalProject
                 //lacks definition
                 player.Update();
             }
+            if (map != null)
+            {
+                map.Update();
+            }
         }
 
         public void Draw(RenderWindow window)
@@ -30,6 +36,10 @@ namespace MyFinalProject
             {
                 //lacks definition
                 player.Draw();
+            }
+            if (map != null)
+            {
+                map.Draw(window);
             }
         }
 

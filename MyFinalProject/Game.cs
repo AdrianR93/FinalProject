@@ -12,19 +12,22 @@ namespace MyFinalProject
         private static Vector2f windowSize;
         private RenderWindow window;
         // create gameplay constructor 
-        private GamePlay gamePlay;
+        private Gameplay gameplay;
         private Camera camera;
 
         public Game()
         {
             VideoMode videoMode = new VideoMode();
-            videoMode.Width = 800;
-            videoMode.Height = 600;
+            videoMode.Width = 720;
+            videoMode.Height = 1280;
 
             window = new RenderWindow(videoMode, "Adrian Rojas");
             //create function close window
             window.Closed += CloseWindow;
             window.SetFramerateLimit(FrameRate.FRAMERATE_LIMIT);
+
+            gameplay = new Gameplay();
+
         }
 
         private void CloseWindow(object sender, EventArgs e)
