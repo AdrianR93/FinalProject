@@ -7,11 +7,10 @@ using System.Text;
 
 namespace MyFinalProject
 {
-    public class Game
+    class Game
     {
         private static Vector2f windowSize;
         private RenderWindow window;
-        // create gameplay constructor 
         private Gameplay gameplay;
         private Camera camera;
 
@@ -19,15 +18,16 @@ namespace MyFinalProject
         {
             VideoMode videoMode = new VideoMode();
             videoMode.Width = 720;
-            videoMode.Height = 1280;
+            videoMode.Height = 1000;
 
-            window = new RenderWindow(videoMode, "Adrian Rojas");
-            //create function close window
+
+            window = new RenderWindow(videoMode, "My Game");
             window.Closed += CloseWindow;
             window.SetFramerateLimit(FrameRate.FRAMERATE_LIMIT);
 
+            //camera = new Camera(window);
             gameplay = new Gameplay();
-
+            //MouseUtils.SetWindow(window);
         }
 
         private void CloseWindow(object sender, EventArgs e)
@@ -42,8 +42,26 @@ namespace MyFinalProject
             return window.IsOpen;
         }
 
+        public void UpdateGame()
+        {
+            gameplay.Update();
+            //camera.UpdateCamera();
+            windowSize = window.GetView().Size;
+        }
+        public void DrawGame()
+        {
+            gameplay.Draw(window);
+            window.Display();
+        }
 
+        public void CheckGarbash()
+        {
+            gameplay.CheckGB();
+        }
 
-
+        public static Vector2f GetWindowSize()
+        {
+            return windowSize;
+        }
     }
 }

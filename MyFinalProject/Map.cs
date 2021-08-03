@@ -9,10 +9,12 @@ namespace MyFinalProject
 {
     class Map : GameObject
     {
-        public Map() : base("Sprites" + Path.DirectorySeparatorChar + "b.png", new Vector2f(0.0f, 0.0f))
+        public Map() : base("Sprites" + Path.DirectorySeparatorChar + "b.png", new Vector2f(0.0f, 0.0f)) 
         {
-            //sprite.Scale = new Vector2f(1.0f,1.0f)
+            sprite.Scale = new Vector2f(1.0f, 1.0f);
+
         }
+        
 
         public override void Update()
         {

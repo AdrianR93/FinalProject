@@ -11,17 +11,16 @@ namespace MyFinalProject
         protected Texture texture;
         protected Sprite sprite;
         protected Vector2f currentPosition;
-        //private bool lateDispose;
-        //public bool toDelete;
-
+        private bool lateDispose;
+        public bool toDelete;
         public GameObject(string texturePath, Vector2f startPosition)
         {
             texture = new Texture(texturePath);
             sprite = new Sprite(texture);
             currentPosition = startPosition;
             sprite.Position = currentPosition;
-            //toDelete = false;
-            //lateDispose = false;
+            toDelete = false;
+            lateDispose = false;
         }
 
         public virtual void Update()
@@ -34,32 +33,29 @@ namespace MyFinalProject
             window.Draw(sprite);
         }
 
+        public virtual void DisposeNow()
+        {
+            sprite.Dispose();
+            texture.Dispose();
+            toDelete = true;
+        }
+
+        public void LateDispose()
+        {
+            lateDispose = true;
+        }
+
+        public virtual void CheckGarbash()
+        {
+            if (lateDispose)
+            {
+                DisposeNow();
+            }
+        }
 
         public Vector2f GetPosition()
         {
             return currentPosition;
         }
-
-        //public virtual void DisposeNow()
-        //{
-        //    sprite.Dispose();
-        //}
-
-        //public void LateDispose()
-        //{
-        //    LateDispose = true;
-        //}
-
-        //public virtual void CheckGB()
-        //{
-        //    if (lateDispose)
-        //    {
-        //        DisposeNow();
-        //    }
-        //}
-
-
-
-
     }
 }

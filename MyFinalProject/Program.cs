@@ -9,14 +9,11 @@ namespace MyFinalProject
         {
             Game game = new Game();
             FrameRate.InitFrameRateSystem();
-           // while (game)
+            while (game.UpdateWindow())
             {
-
+                game.UpdateGame();
+                game.DrawGame();
             }
-
-
-
-
 
 
         }
