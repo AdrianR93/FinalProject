@@ -21,18 +21,24 @@ namespace MyFinalProject
         {
             sprite.Scale = new Vector2f(1.0f, 1.0f);
             speed = 150.0f;
+            bullets = new List<Bullet>();
             fireDelay = 2.0f;
             fireRate = 2.0f;
         }
         public override void Update()
         {
             Movement();
+            Shoot();
             base.Update();
         }
 
         public override void Draw(RenderWindow window)
         {
             base.Draw(window);
+            for (int i = 0; i < bullets.Count; i++)
+            {
+                bullets[i].Draw(window);
+            }
         }
 
         public void Dispose()
@@ -41,6 +47,18 @@ namespace MyFinalProject
             texture.Dispose();
         }
 
+        private void Shoot()
+        {
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Space) && fireDelay >= fireRate)
+            {
+                Vector2f spawnPosition = currentPosition;
+                spawnPosition.X += (texture.Size.X * sprite.Scale.X) / 2.0f;
+                spawnPosition.Y += (texture.Size.Y * sprite.Scale.Y) / 2.0f;
+                bullets.Add(new Bullet(spawnPosition));
+                fireDelay = 0.0f;
+            }
+            fireDelay += FrameRate.GetDeltaTime();
+        }
 
         private void Movement()
         {
@@ -60,6 +78,8 @@ namespace MyFinalProject
             {
                 currentPosition.Y -= speed * FrameRate.GetDeltaTime();
             }
+
+
 
         }
  
