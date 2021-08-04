@@ -1,4 +1,5 @@
-﻿using SFML.System;
+﻿using SFML.Graphics;
+using SFML.System;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,21 +7,22 @@ using System.Text;
 
 namespace MyFinalProject
 {
-    class Bullet : GameObject
+    class Bullet : GameObject, IColisionable
     {
         private float speed = 50.0f;
-        public enum Direction { North, South, East, West, NE}
-        private Direction bulletDirection;
+        public enum Direction { North, South, East, West, }
+        private Direction direction;
         public Bullet(Vector2f startPosition, Direction direction) : base("Sprites" + Path.DirectorySeparatorChar + "tiro.png", startPosition)
         {
             sprite.Scale = new Vector2f(0.25f, 0.25f);
-            bulletDirection = direction;
-        }
+            this.direction = direction;
+            CollisionManager.GetInstance().AddToCollisionManager(this);
 
+        }
 
         public override void Update()
         {
-            switch (bulletDirection)
+            switch (direction)
             {
                 case Direction.North:
                     currentPosition.Y -= speed * FrameRate.GetDeltaTime();
@@ -38,16 +40,37 @@ namespace MyFinalProject
                     currentPosition.X -= speed * FrameRate.GetDeltaTime();
                     Console.WriteLine("oest");
                     break;
-                case Direction.NE:
-                    currentPosition.X += speed * FrameRate.GetDeltaTime();
-                    currentPosition.Y += speed * FrameRate.GetDeltaTime();
-                    break;
                 default:
                     break;
             }
-
             base.Update();
             
+        }
+
+        public FloatRect GetBounds()
+        {
+            return sprite.GetGlobalBounds();
+        }
+
+        public void OnCollisionEnter(IColisionable other)
+        {
+            if (other is Obstacle)
+            {
+                DisposeNow();
+            }
+        }
+        public void OnCollisionStay(IColisionable other)
+        {
+
+        }
+        public void OnCollisionExit(IColisionable other)
+        {
+        }
+
+        public override void DisposeNow()
+        {
+            CollisionManager.GetInstance().RemoveFromCollisionManager(this);
+            base.DisposeNow();
         }
 
     }

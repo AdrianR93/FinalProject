@@ -45,7 +45,7 @@ namespace MyFinalProject
             lateDispose = true;
         }
 
-        public virtual void CheckGarbash()
+        public virtual void CheckGB()
         {
             if (lateDispose)
             {

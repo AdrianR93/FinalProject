@@ -8,10 +8,14 @@ namespace MyFinalProject
         static void Main(string[] args)
         {
             Game game = new Game();
+
             FrameRate.InitFrameRateSystem();
+
             while (game.UpdateWindow())
             {
                 game.UpdateGame();
+                CollisionManager.GetInstance().CheckCollisions();
+                game.CheckGB();
                 game.DrawGame();
 
                 FrameRate.OnFrameEnd();

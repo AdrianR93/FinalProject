@@ -12,7 +12,7 @@ namespace MyFinalProject
         private static Vector2f windowSize;
         private RenderWindow window;
         private Gameplay gameplay;
-        private Camera camera;
+        
 
         public Game()
         {
@@ -54,10 +54,10 @@ namespace MyFinalProject
             window.Display();
         }
 
-        //public void CheckGarbash()
-        //{
-        //    gameplay.CheckGB();
-        //}
+        public void CheckGB()
+        {
+            gameplay.CheckGB();
+        }
 
         public static Vector2f GetWindowSize()
         {
