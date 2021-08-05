@@ -32,23 +32,20 @@ namespace MyFinalProject
         {
             if (other is Player)
             {
-                Console.WriteLine("obstacle enter");
+
             }
         }
 
         public void OnCollisionStay(IColisionable other)
         {
-            if (other is Bullet)
-            {
-                DisposeNow();
-            }
+ 
         }
 
         public void OnCollisionExit(IColisionable other)
         {
             if (other is Player)
             {
-                Console.WriteLine("obstacle exit");
+
             }
         }
         public override void DisposeNow()

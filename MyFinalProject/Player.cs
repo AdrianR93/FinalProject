@@ -10,17 +10,16 @@ namespace MyFinalProject
 {
     class Player : GameObject, IColisionable
     {
-        float speed;
+        private float speed;
         private List<Bullet> bullets;
+        private Direction currentDirection;
         private float fireDelay;
         private float fireRate;
-
-        private bool toDelete;
 
         public Player() : base("Sprites" + Path.DirectorySeparatorChar + "pj.png", new Vector2f(300.0f, 720.0f))
         {
             sprite.Scale = new Vector2f(1.0f, 1.0f);
-            speed = 150.0f;
+            speed = 100.0f;
             bullets = new List<Bullet>();
             fireDelay = 0.5f;
             fireRate = 0.5f;
@@ -34,6 +33,7 @@ namespace MyFinalProject
             }
             Movement();
             Shoot();
+            DeleteOldBullets();
             base.Update();
         }
 
@@ -57,11 +57,11 @@ namespace MyFinalProject
         {
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
             {
-                currentPosition.X += speed / (int)2.25 * FrameRate.GetDeltaTime();
+                currentPosition.X += speed * FrameRate.GetDeltaTime();
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.A))
             {
-                currentPosition.X -= speed / (int)2.25 * FrameRate.GetDeltaTime();
+                currentPosition.X -= speed * FrameRate.GetDeltaTime();
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.S))
             {
@@ -76,43 +76,54 @@ namespace MyFinalProject
         {
             if (Keyboard.IsKeyPressed(Keyboard.Key.Space) && Keyboard.IsKeyPressed(Keyboard.Key.W) && fireDelay >= fireRate)
             {
-                Console.WriteLine("up");
                 Vector2f spawnPosition = currentPosition;
                 spawnPosition.X += (texture.Size.X * sprite.Scale.X) / 2.0f;
                 spawnPosition.Y += (texture.Size.Y * sprite.Scale.Y) / 2.0f;
-                bullets.Add(new Bullet(spawnPosition, Bullet.Direction.North));
+                bullets.Add(new Bullet(spawnPosition, Direction.North));
                 fireDelay = 0.0f;
-
+                currentDirection = Direction.North;
             }
             if ((Keyboard.IsKeyPressed(Keyboard.Key.Space) && Keyboard.IsKeyPressed(Keyboard.Key.S) && fireDelay >= fireRate))
             {
-                Console.WriteLine("down");
                 Vector2f spawnPosition = currentPosition;
                 spawnPosition.X += (texture.Size.X * sprite.Scale.X) / 2.0f;
                 spawnPosition.Y += (texture.Size.Y * sprite.Scale.Y) / 2.0f;
-                bullets.Add(new Bullet(spawnPosition, Bullet.Direction.South));
+                bullets.Add(new Bullet(spawnPosition, Direction.South));
                 fireDelay = 0.0f;
+                currentDirection = Direction.South;
+
             }
             if ((Keyboard.IsKeyPressed(Keyboard.Key.Space) && Keyboard.IsKeyPressed(Keyboard.Key.A) && fireDelay >= fireRate))
             {
-                Console.WriteLine("left");
                 Vector2f spawnPosition = currentPosition;
                 spawnPosition.X += (texture.Size.X * sprite.Scale.X) / 2.0f;
                 spawnPosition.Y += (texture.Size.Y * sprite.Scale.Y) / 2.0f;
-                bullets.Add(new Bullet(spawnPosition, Bullet.Direction.West));
+                bullets.Add(new Bullet(spawnPosition, Direction.West));
                 fireDelay = 0.0f;
+                currentDirection = Direction.West;
+
             }
             if ((Keyboard.IsKeyPressed(Keyboard.Key.Space) && Keyboard.IsKeyPressed(Keyboard.Key.D) && fireDelay >= fireRate))
             {
-                Console.WriteLine("right");
                 Vector2f spawnPosition = currentPosition;
                 spawnPosition.X += (texture.Size.X * sprite.Scale.X) / 2.0f;
                 spawnPosition.Y += (texture.Size.Y * sprite.Scale.Y) / 2.0f;
-                bullets.Add(new Bullet(spawnPosition, Bullet.Direction.East));
+                bullets.Add(new Bullet(spawnPosition, Direction.East));
+                fireDelay = 0.0f;
+                currentDirection = Direction.East;
+
+            }
+            //Que pasaria si el player no se esta moviendo? hacia adonde dispara?
+            if ((Keyboard.IsKeyPressed(Keyboard.Key.Space)) && fireDelay >= fireRate)
+            {
+                Vector2f spawnPosition = currentPosition;
+                spawnPosition.X += (texture.Size.X * sprite.Scale.X) / 2.0f;
+                spawnPosition.Y += (texture.Size.Y * sprite.Scale.Y) / 2.0f;
+                bullets.Add(new Bullet(spawnPosition, currentDirection));
                 fireDelay = 0.0f;
             }
 
-            //Que pasaria si el player no se esta moviendo? hacia adonde dispara? tengo que diseñar que se mueva hacia arriba esa bala! 
+             
 
 
             fireDelay += FrameRate.GetDeltaTime();

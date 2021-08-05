@@ -9,12 +9,12 @@ namespace MyFinalProject
 {
     class Bullet : GameObject, IColisionable
     {
-        private float speed = 50.0f;
-        public enum Direction { North, South, East, West, }
+        private float speed = 150.0f;
+
         private Direction direction;
         public Bullet(Vector2f startPosition, Direction direction) : base("Sprites" + Path.DirectorySeparatorChar + "tiro.png", startPosition)
         {
-            sprite.Scale = new Vector2f(0.25f, 0.25f);
+            sprite.Scale = new Vector2f(25f, 25f);
             this.direction = direction;
             CollisionManager.GetInstance().AddToCollisionManager(this);
 
@@ -56,7 +56,7 @@ namespace MyFinalProject
         {
             if (other is Obstacle)
             {
-                DisposeNow();
+                LateDispose();
             }
         }
         public void OnCollisionStay(IColisionable other)

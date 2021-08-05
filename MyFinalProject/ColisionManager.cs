@@ -33,7 +33,7 @@ namespace MyFinalProject
 
         public void RemoveFromCollisionManager(IColisionable colisionable)
         {
-            if (!colisionables.Contains(colisionable))
+            if (colisionables.Contains(colisionable))
             {
                 colisionables.Remove(colisionable);
             }
