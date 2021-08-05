@@ -25,9 +25,7 @@ namespace MyFinalProject
             window.Closed += CloseWindow;
             window.SetFramerateLimit(FrameRate.FRAMERATE_LIMIT);
 
-            //camera = new Camera(window);
-            gameplay = new Gameplay();
-            //MouseUtils.SetWindow(window);
+            Gameplay.GetInstance();
         }
 
         private void CloseWindow(object sender, EventArgs e)
@@ -44,19 +42,18 @@ namespace MyFinalProject
 
         public void UpdateGame()
         {
-            gameplay.Update();
-            //camera.UpdateCamera();
+            Gameplay.GetInstance().Update();
             windowSize = window.GetView().Size;
         }
         public void DrawGame()
         {
-            gameplay.Draw(window);
+            Gameplay.GetInstance().Draw(window);
             window.Display();
         }
 
         public void CheckGB()
         {
-            gameplay.CheckGB();
+            Gameplay.GetInstance().CheckGB();
         }
 
         public static Vector2f GetWindowSize()

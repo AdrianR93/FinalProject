@@ -9,10 +9,8 @@ namespace MyFinalProject
     {
         public FloatRect GetBounds();
 
-        public void OnCollisionStay(IColisionable other);
-
         public void OnCollisionEnter(IColisionable other);
-
+        public void OnCollisionStay(IColisionable other);
         public void OnCollisionExit(IColisionable other);
 
     }

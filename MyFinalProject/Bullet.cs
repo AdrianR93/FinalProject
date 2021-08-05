@@ -9,12 +9,12 @@ namespace MyFinalProject
 {
     class Bullet : GameObject, IColisionable
     {
-        private float speed = 150.0f;
+        private float speed = 200.0f;
 
         private Direction direction;
         public Bullet(Vector2f startPosition, Direction direction) : base("Sprites" + Path.DirectorySeparatorChar + "tiro.png", startPosition)
         {
-            sprite.Scale = new Vector2f(25f, 25f);
+            sprite.Scale = new Vector2f(0.25f, 0.25f);
             this.direction = direction;
             CollisionManager.GetInstance().AddToCollisionManager(this);
 
@@ -22,29 +22,30 @@ namespace MyFinalProject
 
         public override void Update()
         {
+            BulletDirection();
+            base.Update();
+            
+        }
+
+        private void BulletDirection()
+        {
             switch (direction)
             {
                 case Direction.North:
                     currentPosition.Y -= speed * FrameRate.GetDeltaTime();
-                    Console.WriteLine("norte");
                     break;
                 case Direction.South:
                     currentPosition.Y += speed * FrameRate.GetDeltaTime();
-                    Console.WriteLine("sur");
                     break;
                 case Direction.East:
                     currentPosition.X += speed * FrameRate.GetDeltaTime();
-                    Console.WriteLine("est");
                     break;
                 case Direction.West:
                     currentPosition.X -= speed * FrameRate.GetDeltaTime();
-                    Console.WriteLine("oest");
                     break;
                 default:
                     break;
             }
-            base.Update();
-            
         }
 
         public FloatRect GetBounds()
@@ -54,17 +55,19 @@ namespace MyFinalProject
 
         public void OnCollisionEnter(IColisionable other)
         {
-            if (other is Obstacle)
-            {
-                LateDispose();
-            }
+
+
         }
         public void OnCollisionStay(IColisionable other)
         {
-
+           
         }
         public void OnCollisionExit(IColisionable other)
         {
+            if (other is NPC)
+            {
+                LateDispose();
+            }
         }
 
         public override void DisposeNow()

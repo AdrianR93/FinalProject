@@ -18,11 +18,11 @@ namespace MyFinalProject
 
         public Player() : base("Sprites" + Path.DirectorySeparatorChar + "pj.png", new Vector2f(300.0f, 720.0f))
         {
-            sprite.Scale = new Vector2f(1.0f, 1.0f);
-            speed = 100.0f;
+            sprite.Scale = new Vector2f(0.8f, 0.8f);
+            speed = 150.0f;
             bullets = new List<Bullet>();
-            fireDelay = 0.5f;
-            fireRate = 0.5f;
+            fireDelay = 0.3f;
+            fireRate = 0.3f;
             CollisionManager.GetInstance().AddToCollisionManager(this);
         }
         public override void Update()
@@ -45,13 +45,6 @@ namespace MyFinalProject
                 bullets[i].Draw(window);
             }
         }
-
-        public void Dispose()
-        {
-            sprite.Dispose();
-            texture.Dispose();
-        }
-
 
         private void Movement()
         {
@@ -76,58 +69,40 @@ namespace MyFinalProject
         {
             if (Keyboard.IsKeyPressed(Keyboard.Key.Space) && Keyboard.IsKeyPressed(Keyboard.Key.W) && fireDelay >= fireRate)
             {
-                Vector2f spawnPosition = currentPosition;
-                spawnPosition.X += (texture.Size.X * sprite.Scale.X) / 2.0f;
-                spawnPosition.Y += (texture.Size.Y * sprite.Scale.Y) / 2.0f;
-                bullets.Add(new Bullet(spawnPosition, Direction.North));
-                fireDelay = 0.0f;
-                currentDirection = Direction.North;
+                ShootDirection(Direction.North);
             }
             if ((Keyboard.IsKeyPressed(Keyboard.Key.Space) && Keyboard.IsKeyPressed(Keyboard.Key.S) && fireDelay >= fireRate))
             {
-                Vector2f spawnPosition = currentPosition;
-                spawnPosition.X += (texture.Size.X * sprite.Scale.X) / 2.0f;
-                spawnPosition.Y += (texture.Size.Y * sprite.Scale.Y) / 2.0f;
-                bullets.Add(new Bullet(spawnPosition, Direction.South));
-                fireDelay = 0.0f;
-                currentDirection = Direction.South;
-
+                ShootDirection(Direction.South);
             }
             if ((Keyboard.IsKeyPressed(Keyboard.Key.Space) && Keyboard.IsKeyPressed(Keyboard.Key.A) && fireDelay >= fireRate))
             {
-                Vector2f spawnPosition = currentPosition;
-                spawnPosition.X += (texture.Size.X * sprite.Scale.X) / 2.0f;
-                spawnPosition.Y += (texture.Size.Y * sprite.Scale.Y) / 2.0f;
-                bullets.Add(new Bullet(spawnPosition, Direction.West));
-                fireDelay = 0.0f;
-                currentDirection = Direction.West;
-
+                ShootDirection(Direction.West);
             }
             if ((Keyboard.IsKeyPressed(Keyboard.Key.Space) && Keyboard.IsKeyPressed(Keyboard.Key.D) && fireDelay >= fireRate))
             {
-                Vector2f spawnPosition = currentPosition;
-                spawnPosition.X += (texture.Size.X * sprite.Scale.X) / 2.0f;
-                spawnPosition.Y += (texture.Size.Y * sprite.Scale.Y) / 2.0f;
-                bullets.Add(new Bullet(spawnPosition, Direction.East));
-                fireDelay = 0.0f;
-                currentDirection = Direction.East;
-
+                ShootDirection(Direction.East);
             }
             //Que pasaria si el player no se esta moviendo? hacia adonde dispara?
             if ((Keyboard.IsKeyPressed(Keyboard.Key.Space)) && fireDelay >= fireRate)
             {
-                Vector2f spawnPosition = currentPosition;
-                spawnPosition.X += (texture.Size.X * sprite.Scale.X) / 2.0f;
-                spawnPosition.Y += (texture.Size.Y * sprite.Scale.Y) / 2.0f;
-                bullets.Add(new Bullet(spawnPosition, currentDirection));
-                fireDelay = 0.0f;
+                ShootDirection(currentDirection);
             }
-
-             
-
-
             fireDelay += FrameRate.GetDeltaTime();
         }
+
+        private void ShootDirection(Direction direction)
+        {
+            Vector2f spawnPosition = currentPosition;
+            spawnPosition.X += (texture.Size.X * sprite.Scale.X) / 2.0f;
+            spawnPosition.Y += (texture.Size.Y * sprite.Scale.Y) / 2.0f;
+            bullets.Add(new Bullet(spawnPosition, direction));
+            fireDelay = 0.0f;
+            currentDirection = direction;
+        }
+
+
+
         private void DeleteOldBullets()
         {
             List<int> indexToDelete = new List<int>();
@@ -138,13 +113,18 @@ namespace MyFinalProject
                 {
                     indexToDelete.Add(i);
                 }
-            }
+                if (bullets[i].GetPosition().Y > Game.GetWindowSize().Y)
+                {
+                    indexToDelete.Add(i);
 
+                }
+            }
             for (int i = indexToDelete.Count - 1; i >= 0; i--)
             {
                 bullets[i].DisposeNow();
                 bullets.RemoveAt(i);
             }
+
         }
 
         public FloatRect GetBounds()
@@ -153,25 +133,75 @@ namespace MyFinalProject
         }
         public void OnCollisionEnter(IColisionable other)
         {
-            if (other is Obstacle)
+            if (other is InvisibleBorder)
             {
-                Console.WriteLine("Rock enter");
+                if ((Keyboard.IsKeyPressed(Keyboard.Key.W)))
+                {
+                    Console.WriteLine("wall N");
+                    currentPosition.X -= 2 * speed * FrameRate.GetDeltaTime();
+                    if ((Keyboard.IsKeyPressed(Keyboard.Key.A)))
+                    {
+                        currentPosition.X -= speed * FrameRate.GetDeltaTime();
+                    }
+                    else if ((Keyboard.IsKeyPressed(Keyboard.Key.D)))
+                    {
+                        currentPosition.X += speed * FrameRate.GetDeltaTime();
+                    }
+                }
+                if ((Keyboard.IsKeyPressed(Keyboard.Key.A)))
+                {
+                    Console.WriteLine("wall E");
+                    currentPosition.X += 2 * speed * FrameRate.GetDeltaTime();
+                    if ((Keyboard.IsKeyPressed(Keyboard.Key.W)))
+                    {
+                        currentPosition.Y -= speed * FrameRate.GetDeltaTime();
+                    }
+                    else if ((Keyboard.IsKeyPressed(Keyboard.Key.S)))
+                    {
+                        currentPosition.Y += speed * FrameRate.GetDeltaTime();
+                    }
+                }
+                if ((Keyboard.IsKeyPressed(Keyboard.Key.S)))
+                {
+                    Console.WriteLine("wall S");
+                    currentPosition.X -= 2 * speed * FrameRate.GetDeltaTime();
+                    if ((Keyboard.IsKeyPressed(Keyboard.Key.A)))
+                    {
+                        currentPosition.X -= speed * FrameRate.GetDeltaTime();
+                    }
+                    else if ((Keyboard.IsKeyPressed(Keyboard.Key.D)))
+                    {
+                        currentPosition.X += speed * FrameRate.GetDeltaTime();
+                    }
+                }
+                if ((Keyboard.IsKeyPressed(Keyboard.Key.D)))
+                {
+                    Console.WriteLine("wall W");
+                    currentPosition.X -= 2 * speed * FrameRate.GetDeltaTime();
+                    if ((Keyboard.IsKeyPressed(Keyboard.Key.W)))
+                    {
+                        currentPosition.Y -= speed * FrameRate.GetDeltaTime();
+                    }
+                    else if ((Keyboard.IsKeyPressed(Keyboard.Key.S)))
+                    {
+                        currentPosition.Y += speed * FrameRate.GetDeltaTime();
+                    }
+                }
+
             }
         }
 
+
         public void OnCollisionStay(IColisionable other)
         {
-            if (other is Obstacle)
-            {
-                Console.WriteLine("Rock stays");
-            }
+
         }
 
         public void OnCollisionExit(IColisionable other)
         {
-            if (other is Obstacle)
+            if (other is InvisibleBorder)
             {
-                Console.WriteLine("Rock exit");
+                Console.WriteLine("wall exit");
             }
         }
 
@@ -192,10 +222,12 @@ namespace MyFinalProject
                     indexToDelete.Add(i);
                 }
             }
-            for (int i = 0; i < indexToDelete.Count; i++)
+            for (int i = indexToDelete.Count - 1; i >= 0; i--)
             {
+                bullets[i].DisposeNow();
                 bullets.RemoveAt(i);
             }
+
         }
     }
 }

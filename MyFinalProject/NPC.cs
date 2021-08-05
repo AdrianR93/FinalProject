@@ -14,23 +14,28 @@ namespace MyFinalProject
 
         public NPC(Vector2f startposition) : base("Sprites" + Path.DirectorySeparatorChar + "npc.png", startposition)
         {
-            sprite.Scale = new Vector2f(0.35f, 0.35f);
+            sprite.Scale = new Vector2f(0.25f, 0.25f);
             speedVariant = new Random();
             speed = (float)speedVariant.Next(100, 250);
+            CollisionManager.GetInstance().AddToCollisionManager(this);
         }
 
         public override void Update()
         {
+            NPCMovement();
             base.Update();
         }
 
-        public override void Draw(RenderWindow window)
+        public void NPCMovement()
         {
-            base.Draw(window);
+            currentPosition.Y += speed * FrameRate.GetDeltaTime();
         }
+
+
 
         public override void DisposeNow()
         {
+            CollisionManager.GetInstance().RemoveFromCollisionManager(this);
             base.DisposeNow();
         }
 
@@ -38,6 +43,7 @@ namespace MyFinalProject
         {
             base.CheckGB();
         }
+
         public FloatRect GetBounds()
         {
             return sprite.GetGlobalBounds();
@@ -45,17 +51,23 @@ namespace MyFinalProject
 
         public void OnCollisionEnter(IColisionable other)
         {
-            throw new NotImplementedException();
-        }
-
-        public void OnCollisionExit(IColisionable other)
-        {
-            throw new NotImplementedException();
+            if (other is Bullet)
+            {
+                Gameplay.GetInstance().RevivingZombies();
+            }
         }
 
         public void OnCollisionStay(IColisionable other)
         {
-            throw new NotImplementedException();
+            if (other is Bullet)
+            {
+                //LateDispose();
+            }
         }
+
+        public void OnCollisionExit(IColisionable other)
+        {
+        }
+
     }
 }
