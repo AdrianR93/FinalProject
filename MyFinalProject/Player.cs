@@ -137,8 +137,8 @@ namespace MyFinalProject
             {
                 if ((Keyboard.IsKeyPressed(Keyboard.Key.W)))
                 {
-                    Console.WriteLine("wall N");
-                    currentPosition.X -= 2 * speed * FrameRate.GetDeltaTime();
+                    Console.WriteLine("wall W");
+                    currentPosition.Y += 2 * speed * FrameRate.GetDeltaTime();
                     if ((Keyboard.IsKeyPressed(Keyboard.Key.A)))
                     {
                         currentPosition.X -= speed * FrameRate.GetDeltaTime();
@@ -150,7 +150,7 @@ namespace MyFinalProject
                 }
                 if ((Keyboard.IsKeyPressed(Keyboard.Key.A)))
                 {
-                    Console.WriteLine("wall E");
+                    Console.WriteLine("wall A");
                     currentPosition.X += 2 * speed * FrameRate.GetDeltaTime();
                     if ((Keyboard.IsKeyPressed(Keyboard.Key.W)))
                     {
@@ -164,7 +164,7 @@ namespace MyFinalProject
                 if ((Keyboard.IsKeyPressed(Keyboard.Key.S)))
                 {
                     Console.WriteLine("wall S");
-                    currentPosition.X -= 2 * speed * FrameRate.GetDeltaTime();
+                    currentPosition.Y -= 2 * speed * FrameRate.GetDeltaTime();
                     if ((Keyboard.IsKeyPressed(Keyboard.Key.A)))
                     {
                         currentPosition.X -= speed * FrameRate.GetDeltaTime();
@@ -176,7 +176,7 @@ namespace MyFinalProject
                 }
                 if ((Keyboard.IsKeyPressed(Keyboard.Key.D)))
                 {
-                    Console.WriteLine("wall W");
+                    Console.WriteLine("wall D");
                     currentPosition.X -= 2 * speed * FrameRate.GetDeltaTime();
                     if ((Keyboard.IsKeyPressed(Keyboard.Key.W)))
                     {

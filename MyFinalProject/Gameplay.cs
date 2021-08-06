@@ -24,6 +24,10 @@ namespace MyFinalProject
         private Obstacle obstacle;
         private Player player;
         private List<NPC> npcs;
+        private List<NPCBouncer> limits;
+
+        private NPCBouncer northBouncer;
+        private NPCBouncer southBouncer;
 
         private InvisibleBorder Nborder;
         private InvisibleBorder Sborder;
@@ -33,15 +37,8 @@ namespace MyFinalProject
         private Gameplay()
         {
             map = new Map();
-
-            // Borders, I'll make it into an array or a vector, too much repetitive code
-            // Don't know how to make it an Array lol, just leave it at that atm
-            Nborder = new InvisibleBorder(new Vector2f(0.1f, 0.1f), new Vector2f(1000.0f, 10.0f));
-            Sborder = new InvisibleBorder(new Vector2f(0.1f, 920.0f), new Vector2f(1000.0f, 10.0f));
-            Wborder = new InvisibleBorder(new Vector2f(0.1f, 0.1f), new Vector2f(10.0f, 1000.0f));
-            Eborder = new InvisibleBorder(new Vector2f(720.0f, 0), new Vector2f(10.0f, 1000.0f));
-
-
+            CreateBorders();
+            CreateZombieBouncers();
             //ObstacleCourse();
             player = new Player();
             npcs = new List<NPC>();
@@ -105,7 +102,8 @@ namespace MyFinalProject
                     player = null;
                 }
             }
-
+            if (npcs != null)
+            {
             List<int> indexToDelete = new List<int>();
             for (int i = 0; i < npcs.Count; i++)
             {
@@ -115,25 +113,23 @@ namespace MyFinalProject
                     indexToDelete.Add(i);
                 }
             }
-            // for reverso
-            // dispose now adentro 
-            // revisa esta vaina
+
             for (int i = indexToDelete.Count - 1; i >= 0; i--)
             {
                 npcs[i].DisposeNow();
                 npcs.RemoveAt(i);
             }
 
+            }
+
         }
-
-
 
         public void InitialZombies()
         {
-            int spawnLocations = 7;
+            int spawnLocations = 8;
             for (int i = 0; i < spawnLocations; i++)
             {
-                npcs.Add(new NPC(new Vector2f((i * 90.0f), 0.9f)));
+                npcs.Add(new NPC(new Vector2f((i * 90.0f), 10.0f)));
             }
             spawnLocations = 4;
             for (int i = 0; i < spawnLocations; i++)
@@ -158,9 +154,24 @@ namespace MyFinalProject
             }
         }
 
-        public void ObstacleCourse()
+        private void ObstacleCourse()
         {
             obstacle = new Obstacle();
+        }
+
+        private void CreateBorders()
+        {
+            Nborder = new InvisibleBorder(new Vector2f(1f, 1f), new Vector2f(720.0f, 1f));
+            Sborder = new InvisibleBorder(new Vector2f(1f, 900.0f), new Vector2f(720f, 1f));
+            Wborder = new InvisibleBorder(new Vector2f(1f, 1f), new Vector2f(1f, 900.0f));
+            Eborder = new InvisibleBorder(new Vector2f(720.0f, 0), new Vector2f(1f, 900.0f));
+        }
+
+        private void CreateZombieBouncers()
+        {
+            northBouncer = new NPCBouncer(new Vector2f(0.1f, 0.1f), new Vector2f(720f, 1f));
+            southBouncer = new NPCBouncer(new Vector2f(0.1f, 900.0f), new Vector2f(720f, 1f));
+
         }
 
     }
