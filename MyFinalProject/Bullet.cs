@@ -10,19 +10,24 @@ namespace MyFinalProject
     class Bullet : GameObject, IColisionable
     {
         private float speed = 1500.0f;
+        private Clock bulletTimeOfLife;
+        private float secondsToLive;
+
 
         private Direction direction;
-        public Bullet(Vector2f startPosition, Direction direction) : base("Sprites" + Path.DirectorySeparatorChar + "tiro.png", startPosition)
+        public Bullet(Vector2f startPosition, Direction direction) : base("Sprites" + Path.DirectorySeparatorChar + "bullet.png", startPosition)
         {
-            sprite.Scale = new Vector2f(0.25f, 0.25f);
+            sprite.Scale = new Vector2f(0.8f, 0.8f);
             this.direction = direction;
             CollisionManager.GetInstance().AddToCollisionManager(this);
-
+            bulletTimeOfLife = new Clock();
+            secondsToLive = 5;
         }
 
         public override void Update()
         {
             BulletDirection();
+            BulletLife();
             base.Update();
 
         }
@@ -48,6 +53,15 @@ namespace MyFinalProject
             }
         }
 
+        private void BulletLife()
+        {
+            if (bulletTimeOfLife.ElapsedTime.AsSeconds() >= secondsToLive )
+            {
+                Console.WriteLine("Cold Bullet...");
+                LateDispose();
+            }
+        }
+
 
         public FloatRect GetBounds()
         {
@@ -56,7 +70,7 @@ namespace MyFinalProject
 
         public void OnCollisionEnter(IColisionable other)
         {
-            if (other is InvisibleBorder || other is NPCBouncer)
+            if (other is InvisibleBorder)
             {
                 LateDispose();
             }

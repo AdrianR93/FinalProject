@@ -24,10 +24,7 @@ namespace MyFinalProject
         private Obstacle obstacle;
         private Player player;
         private List<NPC> npcs;
-        private List<NPCBouncer> limits;
 
-        private NPCBouncer northBouncer;
-        private NPCBouncer southBouncer;
 
         private InvisibleBorder Nborder;
         private InvisibleBorder Sborder;
