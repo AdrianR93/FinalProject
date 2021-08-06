@@ -9,7 +9,7 @@ namespace MyFinalProject
 {
     class Bullet : GameObject, IColisionable
     {
-        private float speed = 200.0f;
+        private float speed = 1500.0f;
 
         private Direction direction;
         public Bullet(Vector2f startPosition, Direction direction) : base("Sprites" + Path.DirectorySeparatorChar + "tiro.png", startPosition)
@@ -24,7 +24,7 @@ namespace MyFinalProject
         {
             BulletDirection();
             base.Update();
-            
+
         }
 
         private void BulletDirection()
@@ -48,6 +48,7 @@ namespace MyFinalProject
             }
         }
 
+
         public FloatRect GetBounds()
         {
             return sprite.GetGlobalBounds();
@@ -55,16 +56,26 @@ namespace MyFinalProject
 
         public void OnCollisionEnter(IColisionable other)
         {
-
+            if (other is InvisibleBorder || other is NPCBouncer)
+            {
+                LateDispose();
+            }
 
         }
         public void OnCollisionStay(IColisionable other)
         {
-           
+            if (other is InvisibleBorder)
+            {
+                LateDispose();
+            }
+            if (other is NPC)
+            {
+                LateDispose();
+            }
         }
         public void OnCollisionExit(IColisionable other)
         {
-            if (other is NPC)
+            if (other is InvisibleBorder)
             {
                 LateDispose();
             }

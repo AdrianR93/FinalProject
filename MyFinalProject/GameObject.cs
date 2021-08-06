@@ -47,6 +47,7 @@ namespace MyFinalProject
 
         public virtual void CheckGB()
         {
+
             if (lateDispose)
             {
                 DisposeNow();

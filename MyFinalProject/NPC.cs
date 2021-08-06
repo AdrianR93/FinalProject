@@ -141,7 +141,7 @@ namespace MyFinalProject
 
         public void OnCollisionEnter(IColisionable other)
         {
-            if (other is NPCBouncer)
+            if (other is InvisibleBorder)
             {
                 if (status == Status.Down)
                 {
@@ -156,7 +156,10 @@ namespace MyFinalProject
 
         public void OnCollisionStay(IColisionable other)
         {
-
+            if (other is Bullet)
+            {
+                LateDispose();
+            }
         }
 
         public void OnCollisionExit(IColisionable other)

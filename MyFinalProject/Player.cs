@@ -33,7 +33,6 @@ namespace MyFinalProject
             }
             Movement();
             Shoot();
-            DeleteOldBullets();
             base.Update();
         }
 
@@ -101,30 +100,60 @@ namespace MyFinalProject
             currentDirection = direction;
         }
 
-
-
-        private void DeleteOldBullets()
+        private void BounceOnLimits()
         {
-            List<int> indexToDelete = new List<int>();
-            for (int i = 0; i < bullets.Count; i++)
+            if ((Keyboard.IsKeyPressed(Keyboard.Key.W)))
             {
-                bullets[i].Update();
-                if (bullets[i].GetPosition().X > Game.GetWindowSize().X)
+                Console.WriteLine("wall W");
+                currentPosition.Y += 3 * speed * FrameRate.GetDeltaTime();
+                if ((Keyboard.IsKeyPressed(Keyboard.Key.A)))
                 {
-                    indexToDelete.Add(i);
+                    currentPosition.X -= speed * FrameRate.GetDeltaTime();
                 }
-                if (bullets[i].GetPosition().Y > Game.GetWindowSize().Y)
+                if ((Keyboard.IsKeyPressed(Keyboard.Key.D)))
                 {
-                    indexToDelete.Add(i);
-
+                    currentPosition.X += speed * FrameRate.GetDeltaTime();
                 }
             }
-            for (int i = indexToDelete.Count - 1; i >= 0; i--)
+            if ((Keyboard.IsKeyPressed(Keyboard.Key.A)))
             {
-                bullets[i].DisposeNow();
-                bullets.RemoveAt(i);
+                Console.WriteLine("wall A");
+                currentPosition.X += 3 * speed * FrameRate.GetDeltaTime();
+                if ((Keyboard.IsKeyPressed(Keyboard.Key.W)))
+                {
+                    currentPosition.Y -= speed * FrameRate.GetDeltaTime();
+                }
+                if ((Keyboard.IsKeyPressed(Keyboard.Key.S)))
+                {
+                    currentPosition.Y += speed * FrameRate.GetDeltaTime();
+                }
             }
-
+            if ((Keyboard.IsKeyPressed(Keyboard.Key.S)))
+            {
+                Console.WriteLine("wall S");
+                currentPosition.Y -= 3 * speed * FrameRate.GetDeltaTime();
+                if ((Keyboard.IsKeyPressed(Keyboard.Key.A)))
+                {
+                    currentPosition.X -= speed * FrameRate.GetDeltaTime();
+                }
+                if ((Keyboard.IsKeyPressed(Keyboard.Key.D)))
+                {
+                    currentPosition.X += speed * FrameRate.GetDeltaTime();
+                }
+            }
+            if ((Keyboard.IsKeyPressed(Keyboard.Key.D)))
+            {
+                Console.WriteLine("wall D");
+                currentPosition.X -= 3 * speed * FrameRate.GetDeltaTime();
+                if ((Keyboard.IsKeyPressed(Keyboard.Key.W)))
+                {
+                    currentPosition.Y -= speed * FrameRate.GetDeltaTime();
+                }
+                 if ((Keyboard.IsKeyPressed(Keyboard.Key.S)))
+                {
+                    currentPosition.Y += speed * FrameRate.GetDeltaTime();
+                }
+            }
         }
 
         public FloatRect GetBounds()
@@ -135,66 +164,14 @@ namespace MyFinalProject
         {
             if (other is InvisibleBorder)
             {
-                if ((Keyboard.IsKeyPressed(Keyboard.Key.W)))
-                {
-                    Console.WriteLine("wall W");
-                    currentPosition.Y += 2 * speed * FrameRate.GetDeltaTime();
-                    if ((Keyboard.IsKeyPressed(Keyboard.Key.A)))
-                    {
-                        currentPosition.X -= speed * FrameRate.GetDeltaTime();
-                    }
-                    else if ((Keyboard.IsKeyPressed(Keyboard.Key.D)))
-                    {
-                        currentPosition.X += speed * FrameRate.GetDeltaTime();
-                    }
-                }
-                if ((Keyboard.IsKeyPressed(Keyboard.Key.A)))
-                {
-                    Console.WriteLine("wall A");
-                    currentPosition.X += 2 * speed * FrameRate.GetDeltaTime();
-                    if ((Keyboard.IsKeyPressed(Keyboard.Key.W)))
-                    {
-                        currentPosition.Y -= speed * FrameRate.GetDeltaTime();
-                    }
-                    else if ((Keyboard.IsKeyPressed(Keyboard.Key.S)))
-                    {
-                        currentPosition.Y += speed * FrameRate.GetDeltaTime();
-                    }
-                }
-                if ((Keyboard.IsKeyPressed(Keyboard.Key.S)))
-                {
-                    Console.WriteLine("wall S");
-                    currentPosition.Y -= 2 * speed * FrameRate.GetDeltaTime();
-                    if ((Keyboard.IsKeyPressed(Keyboard.Key.A)))
-                    {
-                        currentPosition.X -= speed * FrameRate.GetDeltaTime();
-                    }
-                    else if ((Keyboard.IsKeyPressed(Keyboard.Key.D)))
-                    {
-                        currentPosition.X += speed * FrameRate.GetDeltaTime();
-                    }
-                }
-                if ((Keyboard.IsKeyPressed(Keyboard.Key.D)))
-                {
-                    Console.WriteLine("wall D");
-                    currentPosition.X -= 2 * speed * FrameRate.GetDeltaTime();
-                    if ((Keyboard.IsKeyPressed(Keyboard.Key.W)))
-                    {
-                        currentPosition.Y -= speed * FrameRate.GetDeltaTime();
-                    }
-                    else if ((Keyboard.IsKeyPressed(Keyboard.Key.S)))
-                    {
-                        currentPosition.Y += speed * FrameRate.GetDeltaTime();
-                    }
-                }
-
+                BounceOnLimits();
             }
         }
 
 
         public void OnCollisionStay(IColisionable other)
         {
-
+ 
         }
 
         public void OnCollisionExit(IColisionable other)
@@ -213,21 +190,20 @@ namespace MyFinalProject
 
         public override void CheckGB()
         {
-            List<int> indexToDelete = new List<int>();
+            List<Bullet> indexToDelete = new List<Bullet>();
             for (int i = 0; i < bullets.Count; i++)
             {
                 bullets[i].CheckGB();
                 if (bullets[i].toDelete)
                 {
-                    indexToDelete.Add(i);
+                    indexToDelete.Add(bullets[i]);
                 }
             }
-            for (int i = indexToDelete.Count - 1; i >= 0; i--)
+            for (int i = 0; i < indexToDelete.Count; i++)
             {
-                bullets[i].DisposeNow();
-                bullets.RemoveAt(i);
+                indexToDelete[i].DisposeNow();
+                bullets.Remove(indexToDelete[i]);
             }
-
         }
     }
 }

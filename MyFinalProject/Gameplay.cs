@@ -38,7 +38,6 @@ namespace MyFinalProject
         {
             map = new Map();
             CreateBorders();
-            CreateZombieBouncers();
             //ObstacleCourse();
             player = new Player();
             npcs = new List<NPC>();
@@ -104,42 +103,41 @@ namespace MyFinalProject
             }
             if (npcs != null)
             {
-            List<int> indexToDelete = new List<int>();
-            for (int i = 0; i < npcs.Count; i++)
-            {
-                npcs[i].CheckGB();
-                if (npcs[i].toDelete)
+                List<NPC> indexToDelete = new List<NPC>();
+                for (int i = 0; i < npcs.Count; i++)
                 {
-                    indexToDelete.Add(i);
+                    npcs[i].CheckGB();
+                    if (npcs[i].toDelete)
+                    {
+                        indexToDelete.Add(npcs[i]);
+                    }
                 }
-            }
+                for (int i = 0; i < indexToDelete.Count; i++)
+                {
+                    indexToDelete[i].DisposeNow();
+                    npcs.Remove(indexToDelete[i]);
 
-            for (int i = indexToDelete.Count - 1; i >= 0; i--)
-            {
-                npcs[i].DisposeNow();
-                npcs.RemoveAt(i);
-            }
+                }
 
             }
-
         }
 
         public void InitialZombies()
         {
-            int spawnLocations = 8;
+            int spawnLocations = 4;
             for (int i = 0; i < spawnLocations; i++)
             {
-                npcs.Add(new NPC(new Vector2f((i * 90.0f), 10.0f)));
+                npcs.Add(new NPC(new Vector2f((i * 180.0f), 10.0f)));
             }
             spawnLocations = 4;
             for (int i = 0; i < spawnLocations; i++)
             {
                 npcs.Add(new NPC(new Vector2f((i * 80.0f) + 140.0f, 75.9f)));
             }
-            spawnLocations = 5;
+            spawnLocations = 3;
             for (int i = 0; i < spawnLocations; i++)
             {
-                npcs.Add(new NPC(new Vector2f((i * 105.0f) + 40, 190.9f)));
+                npcs.Add(new NPC(new Vector2f((i * 105.0f) + 50, 190.9f)));
             }
 
 
@@ -161,18 +159,14 @@ namespace MyFinalProject
 
         private void CreateBorders()
         {
-            Nborder = new InvisibleBorder(new Vector2f(1f, 1f), new Vector2f(720.0f, 1f));
-            Sborder = new InvisibleBorder(new Vector2f(1f, 900.0f), new Vector2f(720f, 1f));
-            Wborder = new InvisibleBorder(new Vector2f(1f, 1f), new Vector2f(1f, 900.0f));
-            Eborder = new InvisibleBorder(new Vector2f(720.0f, 0), new Vector2f(1f, 900.0f));
+            Nborder = new InvisibleBorder(new Vector2f(1f, 1f), new Vector2f(720.0f, 0.5f));
+            Sborder = new InvisibleBorder(new Vector2f(1f, 900.0f), new Vector2f(720f, 0.5f));
+            Wborder = new InvisibleBorder(new Vector2f(1f, 1f), new Vector2f(0.5f, 900.0f));
+            Eborder = new InvisibleBorder(new Vector2f(720.0f, 0), new Vector2f(0.5f, 900.0f));
         }
 
-        private void CreateZombieBouncers()
-        {
-            northBouncer = new NPCBouncer(new Vector2f(0.1f, 0.1f), new Vector2f(720f, 1f));
-            southBouncer = new NPCBouncer(new Vector2f(0.1f, 900.0f), new Vector2f(720f, 1f));
 
-        }
 
     }
 }
+

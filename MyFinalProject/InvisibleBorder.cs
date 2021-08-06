@@ -25,7 +25,7 @@ namespace MyFinalProject
 
         public void OnCollisionEnter(IColisionable other)
         {
-            if (other is Player)
+            if (other is Bullet)
             {
                 Console.WriteLine("Out of Border!");
             }
