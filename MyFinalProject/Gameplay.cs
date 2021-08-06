@@ -21,9 +21,11 @@ namespace MyFinalProject
         }
 
         private Map map;
+        private Ui ui; 
         private Obstacle obstacle;
         private Player player;
         private List<NPC> npcs;
+        private GameOverScreen gameOver;
 
 
         private InvisibleBorder Nborder;
@@ -34,6 +36,7 @@ namespace MyFinalProject
         private Gameplay()
         {
             map = new Map();
+            ui = new Ui();
             CreateBorders();
             //ObstacleCourse();
             player = new Player();
@@ -46,6 +49,7 @@ namespace MyFinalProject
         public void Update()
         {
             map.Update();
+            ui.Update(player.GetLifes());
 
             if (player != null)
             {
@@ -63,12 +67,17 @@ namespace MyFinalProject
 
                 }
             }
+            if (gameOver != null)
+            {
+                gameOver.Update();
+            }
+
         }
 
         public void Draw(RenderWindow window)
         {
             map.Draw(window);
-
+            
             if (player != null)
             {
                 player.Draw(window);
@@ -85,6 +94,11 @@ namespace MyFinalProject
                     npcs[i].Draw(window);
 
                 }
+            }
+            ui.Draw(window);
+            if (gameOver != null)
+            {
+                gameOver.Draw(window);
             }
         }
 
@@ -121,7 +135,7 @@ namespace MyFinalProject
 
         public void InitialZombies()
         {
-            int spawnLocations = 4;
+            int spawnLocations = 6;
             for (int i = 0; i < spawnLocations; i++)
             {
                 npcs.Add(new NPC(new Vector2f((i * 180.0f), 10.0f)));
@@ -163,6 +177,11 @@ namespace MyFinalProject
         }
 
 
+
+        public void GameOver()
+        {
+            gameOver = new GameOverScreen(new Vector2f ((float)-60.0,0));
+        }
 
     }
 }

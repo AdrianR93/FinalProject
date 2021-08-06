@@ -23,6 +23,12 @@ namespace MyFinalProject
             lateDispose = false;
         }
 
+        //test
+        public virtual void Update(int someint)
+        {
+            sprite.Position = currentPosition;
+        }
+
         public virtual void Update()
         {
             sprite.Position = currentPosition;

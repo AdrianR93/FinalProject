@@ -11,7 +11,7 @@ namespace MyFinalProject
     {
         private static Vector2f windowSize;
         private RenderWindow window;
-        private Gameplay gameplay;
+
         
 
         public Game()

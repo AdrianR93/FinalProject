@@ -36,8 +36,8 @@ namespace MyFinalProject
             speedVariant = new Random();
             speed = (float)speedVariant.Next(100, 250);
             CollisionManager.GetInstance().AddToCollisionManager(this);
-            
-            
+
+
         }
 
         public override void Update()
@@ -74,10 +74,10 @@ namespace MyFinalProject
             switch (status)
             {
                 case NpcStatus.Down:
-                    if (frameTimer.ElapsedTime.AsSeconds() > animTime / animations[(int)NpcStatus.Down].Count-1)
+                    if (frameTimer.ElapsedTime.AsSeconds() > animTime / animations[(int)NpcStatus.Down].Count - 1)
                     {
                         currentFrame++;
-                        if (currentFrame == animations[(int)NpcStatus.Down].Count - 1)
+                        if (currentFrame >= animations[(int)NpcStatus.Down].Count - 1)
                         {
                             currentFrame = 0;
                         }
@@ -90,7 +90,7 @@ namespace MyFinalProject
                     if (frameTimer.ElapsedTime.AsSeconds() > animTime / animations[(int)NpcStatus.Up].Count - 1)
                     {
                         currentFrame++;
-                        if (currentFrame == animations[(int)NpcStatus.Up].Count - 1)
+                        if (currentFrame >= animations[(int)NpcStatus.Up].Count - 1)
                         {
                             currentFrame = 0;
                         }
@@ -154,6 +154,9 @@ namespace MyFinalProject
                     status = NpcStatus.Down;
                 }
             }
+            if (other is Player)
+            {
+            }
         }
 
         public void OnCollisionStay(IColisionable other)
@@ -162,6 +165,7 @@ namespace MyFinalProject
             {
                 LateDispose();
             }
+
         }
 
         public void OnCollisionExit(IColisionable other)
