@@ -17,7 +17,7 @@ namespace MyFinalProject
         private Direction direction;
         public Bullet(Vector2f startPosition, Direction direction) : base("Sprites" + Path.DirectorySeparatorChar + "bullet.png", startPosition)
         {
-            sprite.Scale = new Vector2f(1.0f, 1.0f);
+            sprite.Scale = new Vector2f(2.0f, 2.0f);
             this.direction = direction;
             CollisionManager.GetInstance().AddToCollisionManager(this);
             bulletTimeOfLife = new Clock();

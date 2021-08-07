@@ -197,21 +197,25 @@ namespace MyFinalProject
             animations[(int)PlayerStatus.MovingLeft].Add(new Vector2i(4, 4));
 
             //shooting up
+            animations[(int)PlayerStatus.ShootingUp].Add(new Vector2i(0, 1));
             animations[(int)PlayerStatus.ShootingUp].Add(new Vector2i(0, 0));
             animations[(int)PlayerStatus.ShootingUp].Add(new Vector2i(0, 1));
             animations[(int)PlayerStatus.ShootingUp].Add(new Vector2i(0, 2));
 
             //shooting down
+            animations[(int)PlayerStatus.ShootingDown].Add(new Vector2i(3, 1));
             animations[(int)PlayerStatus.ShootingDown].Add(new Vector2i(2, 1));
             animations[(int)PlayerStatus.ShootingDown].Add(new Vector2i(3, 1));
             animations[(int)PlayerStatus.ShootingDown].Add(new Vector2i(4, 1));
 
             //shooting rigth
+            animations[(int)PlayerStatus.ShootingRight].Add(new Vector2i(0, 4));
             animations[(int)PlayerStatus.ShootingRight].Add(new Vector2i(0, 3));
             animations[(int)PlayerStatus.ShootingRight].Add(new Vector2i(0, 4));
             animations[(int)PlayerStatus.ShootingRight].Add(new Vector2i(0, 5));
 
             //shooting left
+            animations[(int)PlayerStatus.ShootingLeft].Add(new Vector2i(1, 0));
             animations[(int)PlayerStatus.ShootingLeft].Add(new Vector2i(0, 6));
             animations[(int)PlayerStatus.ShootingLeft].Add(new Vector2i(1, 0));
             animations[(int)PlayerStatus.ShootingLeft].Add(new Vector2i(1, 1));
@@ -226,168 +230,40 @@ namespace MyFinalProject
             switch (status)
             {
                 case PlayerStatus.IdleUp:
-                    animTime = 2.0f;
-                    if (frameTimer.ElapsedTime.AsSeconds() > animTime / animations[(int)PlayerStatus.IdleUp].Count - 1)
-                    {
-                        currentFrame++;
-                        if (currentFrame >= animations[(int)PlayerStatus.IdleUp].Count - 1)
-                        {
-                            currentFrame = 0;
-                        }
-                        frameTimer.Restart();
-                        frameRect.Left = animations[(int)PlayerStatus.IdleUp][currentFrame].X * frameRect.Width;
-                        frameRect.Top = animations[(int)PlayerStatus.IdleUp][currentFrame].Y * frameRect.Height;
-                    }
+                    PlayerAnimationFrameTimer(PlayerStatus.IdleUp, 20.0f);
                     break;
                 case PlayerStatus.IdleDown:
-                    animTime = 2.0f;
-                    if (frameTimer.ElapsedTime.AsSeconds() > animTime / animations[(int)PlayerStatus.IdleDown].Count - 1)
-                    {
-                        currentFrame++;
-                        if (currentFrame >= animations[(int)PlayerStatus.IdleDown].Count - 1)
-                        {
-                            currentFrame = 0;
-                        }
-                        frameTimer.Restart();
-                        frameRect.Left = animations[(int)PlayerStatus.IdleDown][currentFrame].X * frameRect.Width;
-                        frameRect.Top = animations[(int)PlayerStatus.IdleDown][currentFrame].Y * frameRect.Height;
-                    }
+                    PlayerAnimationFrameTimer(PlayerStatus.IdleDown, 20.0f);
                     break;
                 case PlayerStatus.IdleLeft:
-                    animTime = 2.0f;
-                    if (frameTimer.ElapsedTime.AsSeconds() > animTime / animations[(int)PlayerStatus.IdleLeft].Count - 1)
-                    {
-                        currentFrame++;
-                        if (currentFrame >= animations[(int)PlayerStatus.IdleLeft].Count - 1)
-                        {
-                            currentFrame = 0;
-                        }
-                        frameTimer.Restart();
-                        frameRect.Left = animations[(int)PlayerStatus.IdleLeft][currentFrame].X * frameRect.Width;
-                        frameRect.Top = animations[(int)PlayerStatus.IdleLeft][currentFrame].Y * frameRect.Height;
-                    }
+                    PlayerAnimationFrameTimer(PlayerStatus.IdleLeft, 20.0f);
                     break;
                 case PlayerStatus.IdleRight:
-                    animTime = 2.0f;
-                    if (frameTimer.ElapsedTime.AsSeconds() > animTime / animations[(int)PlayerStatus.IdleRight].Count - 1)
-                    {
-                        currentFrame++;
-                        if (currentFrame >= animations[(int)PlayerStatus.IdleRight].Count - 1)
-                        {
-                            currentFrame = 0;
-                        }
-                        frameTimer.Restart();
-                        frameRect.Left = animations[(int)PlayerStatus.IdleRight][currentFrame].X * frameRect.Width;
-                        frameRect.Top = animations[(int)PlayerStatus.IdleRight][currentFrame].Y * frameRect.Height;
-                    }
+                    PlayerAnimationFrameTimer(PlayerStatus.IdleRight, 20.0f);
                     break;
                 case PlayerStatus.MovingUp:
-                    if (frameTimer.ElapsedTime.AsSeconds() > animTime / animations[(int)PlayerStatus.MovingUp].Count - 1)
-                    {
-                        currentFrame++;
-                        if (currentFrame >= animations[(int)PlayerStatus.MovingUp].Count - 1)
-                        {
-                            currentFrame = 0;
-                        }
-                        frameTimer.Restart();
-                        frameRect.Left = animations[(int)PlayerStatus.MovingUp][currentFrame].X * frameRect.Width;
-                        frameRect.Top = animations[(int)PlayerStatus.MovingUp][currentFrame].Y * frameRect.Height;
-                    }
+                    PlayerAnimationFrameTimer(PlayerStatus.MovingUp, 20.0f);
                     break;
                 case PlayerStatus.MovingDown:
-                    if (frameTimer.ElapsedTime.AsSeconds() > animTime / animations[(int)PlayerStatus.MovingDown].Count - 1)
-                    {
-                        currentFrame++;
-                        if (currentFrame >= animations[(int)PlayerStatus.MovingDown].Count - 1)
-                        {
-                            currentFrame = 0;
-                        }
-                        frameTimer.Restart();
-                        frameRect.Left = animations[(int)PlayerStatus.MovingDown][currentFrame].X * frameRect.Width;
-                        frameRect.Top = animations[(int)PlayerStatus.MovingDown][currentFrame].Y * frameRect.Height;
-                    }
+                    PlayerAnimationFrameTimer(PlayerStatus.MovingDown, 20.0f);
                     break;
                 case PlayerStatus.MovingLeft:
-                    if (frameTimer.ElapsedTime.AsSeconds() > animTime / animations[(int)PlayerStatus.MovingLeft].Count - 1)
-                    {
-                        currentFrame++;
-                        if (currentFrame >= animations[(int)PlayerStatus.MovingLeft].Count - 1)
-                        {
-                            currentFrame = 0;
-                        }
-                        frameTimer.Restart();
-                        frameRect.Left = animations[(int)PlayerStatus.MovingLeft][currentFrame].X * frameRect.Width;
-                        frameRect.Top = animations[(int)PlayerStatus.MovingLeft][currentFrame].Y * frameRect.Height;
-                    }
+                    PlayerAnimationFrameTimer(PlayerStatus.MovingLeft, 20.0f);
                     break;
                 case PlayerStatus.MovingRight:
-                    if (frameTimer.ElapsedTime.AsSeconds() > animTime / animations[(int)PlayerStatus.MovingRight].Count - 1)
-                    {
-                        currentFrame++;
-                        if (currentFrame >= animations[(int)PlayerStatus.MovingRight].Count - 1)
-                        {
-                            currentFrame = 0;
-                        }
-                        frameTimer.Restart();
-                        frameRect.Left = animations[(int)PlayerStatus.MovingRight][currentFrame].X * frameRect.Width;
-                        frameRect.Top = animations[(int)PlayerStatus.MovingRight][currentFrame].Y * frameRect.Height;
-                    }
+                    PlayerAnimationFrameTimer(PlayerStatus.MovingRight, 20.0f);
                     break;
                 case PlayerStatus.ShootingUp:
-                    animTime = 10.0f;
-                    if (frameTimer.ElapsedTime.AsSeconds() > animTime / animations[(int)PlayerStatus.ShootingUp].Count - 1)
-                    {
-                        currentFrame++;
-                        if (currentFrame >= animations[(int)PlayerStatus.ShootingUp].Count - 1)
-                        {
-                            currentFrame = 0;
-                        }
-                        frameTimer.Restart();
-                        frameRect.Left = animations[(int)PlayerStatus.ShootingUp][currentFrame].X * frameRect.Width;
-                        frameRect.Top = animations[(int)PlayerStatus.ShootingUp][currentFrame].Y * frameRect.Height;
-                    }
+                    PlayerAnimationFrameTimer(PlayerStatus.ShootingUp, 8.0f);
                     break;
                 case PlayerStatus.ShootingDown:
-                    animTime = 20.0f;
-                    if (frameTimer.ElapsedTime.AsSeconds() > animTime / animations[(int)PlayerStatus.ShootingDown].Count - 1)
-                    {
-                        currentFrame++;
-                        if (currentFrame >= animations[(int)PlayerStatus.ShootingDown].Count - 1)
-                        {
-                            currentFrame = 0;
-                        }
-                        frameTimer.Restart();
-                        frameRect.Left = animations[(int)PlayerStatus.ShootingDown][currentFrame].X * frameRect.Width;
-                        frameRect.Top = animations[(int)PlayerStatus.ShootingDown][currentFrame].Y * frameRect.Height;
-                    }
+                    PlayerAnimationFrameTimer(PlayerStatus.ShootingDown, 8.0f);
                     break;
                 case PlayerStatus.ShootingLeft:
-                    animTime = 10.0f;
-                    if (frameTimer.ElapsedTime.AsSeconds() > animTime / animations[(int)PlayerStatus.ShootingLeft].Count - 1)
-                    {
-                        currentFrame++;
-                        if (currentFrame >= animations[(int)PlayerStatus.ShootingLeft].Count - 1)
-                        {
-                            currentFrame = 0;
-                        }
-                        frameTimer.Restart();
-                        frameRect.Left = animations[(int)PlayerStatus.ShootingLeft][currentFrame].X * frameRect.Width;
-                        frameRect.Top = animations[(int)PlayerStatus.ShootingLeft][currentFrame].Y * frameRect.Height;
-                    }
+                        PlayerAnimationFrameTimer(PlayerStatus.ShootingLeft, 8.0f);
                     break;
                 case PlayerStatus.ShootingRight:
-                    animTime = 10.0f;
-                    if (frameTimer.ElapsedTime.AsSeconds() > animTime / animations[(int)PlayerStatus.ShootingRight].Count - 1)
-                    {
-                        currentFrame++;
-                        if (currentFrame >= animations[(int)PlayerStatus.ShootingRight].Count - 1)
-                        {
-                            currentFrame = 0;
-                        }
-                        frameTimer.Restart();
-                        frameRect.Left = animations[(int)PlayerStatus.ShootingRight][currentFrame].X * frameRect.Width;
-                        frameRect.Top = animations[(int)PlayerStatus.ShootingRight][currentFrame].Y * frameRect.Height;
-                    }
+                    PlayerAnimationFrameTimer(PlayerStatus.ShootingRight, 8.0f);
                     break;
                 case PlayerStatus.Error:
                     break;
@@ -396,6 +272,26 @@ namespace MyFinalProject
             }
             sprite.TextureRect = frameRect;
         }
+
+
+        private void PlayerAnimationFrameTimer(PlayerStatus currentStatus, float animTime)
+        {
+            this.animTime = animTime;
+            if (frameTimer.ElapsedTime.AsSeconds() > this.animTime / animations[(int)currentStatus].Count - 1)
+            {
+                currentFrame++;
+                if (currentFrame >= animations[(int)currentStatus].Count - 1)
+                {
+                    currentFrame = 0;
+                }
+                frameTimer.Restart();
+                frameRect.Left = animations[(int)currentStatus][currentFrame].X * frameRect.Width;
+                frameRect.Top = animations[(int)currentStatus][currentFrame].Y * frameRect.Height;
+            }
+        }
+
+
+
 
         private void Movement()
         {
