@@ -11,6 +11,7 @@ namespace MyFinalProject
         enum NpcStatus { Down, Up, Error };
 
         private float speed;
+        private float oldSpeed;
         Random speedVariant;
         NpcStatus status;
 
@@ -22,7 +23,7 @@ namespace MyFinalProject
         private int sheetRows = 2;
         private float animTime = 16.5f;
 
-        public NPC(Vector2f startposition) : base("Sprites" + Path.DirectorySeparatorChar + "npc2.png", startposition)
+        public NPC(Vector2f startposition) : base("Sprites" + Path.DirectorySeparatorChar + "npc.png", startposition)
         {
             frameRect = new IntRect();
             frameRect.Width = (int)texture.Size.X / sheetColumns;
@@ -35,6 +36,7 @@ namespace MyFinalProject
             sprite.Scale = new Vector2f(0.25f, 0.25f);
             speedVariant = new Random();
             speed = (float)speedVariant.Next(100, 250);
+            oldSpeed = speed;
             CollisionManager.GetInstance().AddToCollisionManager(this);
 
 
@@ -156,6 +158,13 @@ namespace MyFinalProject
             }
             if (other is Player)
             {
+                LateDispose();
+            }
+            if (other is Obstacle)
+            {
+
+                float speedDecrease = speed / 3;
+                speed -= speedDecrease;
             }
         }
 
@@ -164,12 +173,21 @@ namespace MyFinalProject
             if (other is Bullet)
             {
                 LateDispose();
-            }
+                Clock Limit = new Clock();
+                
+                Gameplay.GetInstance().RevivingZombies();
+                    Limit.Restart();
+             }
+
 
         }
 
         public void OnCollisionExit(IColisionable other)
         {
+            if (other is Obstacle)
+            {
+                speed = oldSpeed;
+            }
         }
 
     }

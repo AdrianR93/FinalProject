@@ -21,12 +21,17 @@ namespace MyFinalProject
         }
 
         private Map map;
-        private Ui ui; 
-        private Obstacle obstacle;
+        private Ui ui;
+
+        private Obstacle tree1;
+        private Obstacle tree2;
+        private Obstacle tree3;
+        private Obstacle tree4;
+        private Obstacle tree5;
+        private Obstacle tree6;
         private Player player;
         private List<NPC> npcs;
         private GameOverScreen gameOver;
-
 
         private InvisibleBorder Nborder;
         private InvisibleBorder Sborder;
@@ -36,9 +41,10 @@ namespace MyFinalProject
         private Gameplay()
         {
             map = new Map();
+            TreeCreation();
+
             ui = new Ui();
             CreateBorders();
-            //ObstacleCourse();
             player = new Player();
             npcs = new List<NPC>();
             InitialZombies();
@@ -46,19 +52,26 @@ namespace MyFinalProject
 
         }
 
+        private void TreeCreation()
+        {
+            tree1 = new Obstacle(Obstacle.Trees.Tree1, new Vector2f(650.0f, 400.0f));
+            tree2 = new Obstacle(Obstacle.Trees.Tree2, new Vector2f(80.0f, 180.0f));
+            tree3 = new Obstacle(Obstacle.Trees.Tree3, new Vector2f(450.0f, 600.0f));
+            tree4 = new Obstacle(Obstacle.Trees.Tree2, new Vector2f(300.0f, 380.0f));
+            tree5 = new Obstacle(Obstacle.Trees.Tree3, new Vector2f(150.0f, 90.0f));
+            tree6 = new Obstacle(Obstacle.Trees.Tree3, new Vector2f(500.0f, 900.0f));
+        }
+
         public void Update()
         {
-            map.Update();
+ 
             ui.Update(player.GetLifes());
 
             if (player != null)
             {
                 player.Update();
             }
-            if (obstacle != null)
-            {
-                obstacle.Update();
-            }
+
             if (npcs != null)
             {
                 for (int i = 0; i < npcs.Count; i++)
@@ -77,16 +90,12 @@ namespace MyFinalProject
         public void Draw(RenderWindow window)
         {
             map.Draw(window);
-            
             if (player != null)
             {
                 player.Draw(window);
             }
 
-            if (obstacle != null)
-            {
-                obstacle.Draw(window);
-            }
+
             if (npcs != null)
             {
                 for (int i = 0; i < npcs.Count; i++)
@@ -95,7 +104,17 @@ namespace MyFinalProject
 
                 }
             }
+
             ui.Draw(window);
+
+            if (tree1 != null && tree2 != null && tree3 != null && tree4 != null && tree5 != null)
+            {
+                tree1.Draw(window);
+                tree2.Draw(window);
+                tree3.Draw(window);
+                tree4.Draw(window);
+                tree5.Draw(window);
+            }
             if (gameOver != null)
             {
                 gameOver.Draw(window);
@@ -156,16 +175,25 @@ namespace MyFinalProject
 
         public void RevivingZombies()
         {
-            int spawnLocations = 2;
-            for (int i = 0; i < spawnLocations; i++)
+            int lIndex;
+            Vector2f nextLocation;
+            Vector2f[] newLocations =
             {
-                npcs.Add(new NPC(new Vector2f((i * 50.0f), 0.9f)));
-            }
-        }
+            new Vector2f(100.0f, 40.0f),
+            new Vector2f(250.0f, 40.0f),
+            new Vector2f(300.0f, 40.0f),
+            new Vector2f(350.0f, 90.0f),
+            new Vector2f(500.0f, 10.0f),
+            new Vector2f(400.0f, 40.0f),
+            new Vector2f(600.0f, 10.0f),
+            };
 
-        private void ObstacleCourse()
-        {
-            obstacle = new Obstacle();
+            Random selectLocation = new Random();
+
+            lIndex = selectLocation.Next(newLocations.Length);
+            nextLocation = newLocations[lIndex];
+            npcs.Add(new NPC(newLocations[lIndex]));
+
         }
 
         private void CreateBorders()
@@ -180,7 +208,7 @@ namespace MyFinalProject
 
         public void GameOver()
         {
-            gameOver = new GameOverScreen(new Vector2f ((float)-60.0,0));
+            gameOver = new GameOverScreen(new Vector2f((float)-60.0, 0));
         }
 
     }

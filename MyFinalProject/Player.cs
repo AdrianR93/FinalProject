@@ -12,10 +12,11 @@ namespace MyFinalProject
     {
         enum PlayerStatus { IdleUp, IdleDown, IdleLeft, IdleRight, MovingUp, MovingDown, MovingLeft, MovingRight, ShootingUp, ShootingDown, ShootingLeft, ShootingRight, Error }
 
-        private int maxLifes;
+        private readonly int maxLifes;
         private int lifes;
-        private Clock invulneravility;
+        private Clock invulnerability;
         private float speed;
+        private float oldSpeed;
         private bool movementOn;
         private List<Bullet> bullets;
         private Direction currentDirection;
@@ -45,8 +46,9 @@ namespace MyFinalProject
             sprite.Scale = new Vector2f(0.25f, 0.25f);
             maxLifes = 3;
             lifes = maxLifes;
-            invulneravility = new Clock();
+            invulnerability = new Clock();
             speed = 150.0f;
+            oldSpeed = speed;
             movementOn = false;
             bullets = new List<Bullet>();
             fireDelay = 0.2f;
@@ -585,34 +587,49 @@ namespace MyFinalProject
 
             if (other is NPC)
             {
-                if (invulneravility.ElapsedTime.AsSeconds() >= 3)
-                {
-                    lifes--;
-                }
-                invulneravility.Restart();
-                {
-                    if (lifes <= 0)
-                    {
-                        Gameplay.GetInstance().GameOver();
-                    }
-                }
+                Console.WriteLine("Attacked!");
+            }
+            if (other is Obstacle)
+            {
+                speed = speed / 2;
             }
         }
 
 
         public void OnCollisionStay(IColisionable other)
         {
-
-        }
-
-        public void OnCollisionExit(IColisionable other)
-        {
-            if (other is InvisibleBorder)
+            if (other is NPC)
             {
-                Console.WriteLine("wall exit");
+                float timelapsed = (float)invulnerability.ElapsedTime.AsSeconds();
+
+                if (timelapsed >= 1.5)
+                {
+                    lifes--;
+                    Console.WriteLine(lifes + "lifes remaining");
+                    invulnerability.Restart();
+                    currentPosition.Y += 5 * speed * FrameRate.GetDeltaTime();
+
+                }
+                if (lifes <= 0)
+                {
+                    Gameplay.GetInstance().GameOver();
+                }
+
             }
         }
 
+
+        public void OnCollisionExit(IColisionable other)
+        {
+            if (other is NPC)
+            {
+                currentPosition.Y += 5 * speed * FrameRate.GetDeltaTime();
+            }
+            if (other is Obstacle)
+            {
+                speed = oldSpeed;
+            }
+        }
         public override void DisposeNow()
         {
             CollisionManager.GetInstance().RemoveFromCollisionManager(this);

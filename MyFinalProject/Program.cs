@@ -7,18 +7,27 @@ namespace MyFinalProject
     {
         static void Main(string[] args)
         {
-            Game game = new Game();
-
-            FrameRate.InitFrameRateSystem();
-
-            while (game.UpdateWindow())
+            try
             {
-                game.UpdateGame();
-                CollisionManager.GetInstance().CheckCollisions();
-                game.CheckGB();
-                game.DrawGame();
+                Game game = new Game();
+                MusicManager.GetInstance().Play();
+                FrameRate.InitFrameRateSystem();
 
-                FrameRate.OnFrameEnd();
+                while (game.UpdateWindow())
+                {
+                    game.UpdateGame();
+                    CollisionManager.GetInstance().CheckCollisions();
+                    game.CheckGB();
+                    game.DrawGame();
+
+                    FrameRate.OnFrameEnd();
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("ERROR INESPERADO!" + e.Message);
+                throw;
             }
 
 
